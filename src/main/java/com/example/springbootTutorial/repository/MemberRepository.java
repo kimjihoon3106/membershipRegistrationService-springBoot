@@ -1,7 +1,6 @@
 package com.example.springbootTutorial.repository;
 
-import domain.Member;
-import service.MemberService;
+import com.example.springbootTutorial.domain.Member;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +13,5 @@ public interface MemberRepository {
 
     Optional<Member> findByName(String name);
 
-    List<Member> findall();
+    List<Member> findAll();
 }

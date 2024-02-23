@@ -1,20 +1,25 @@
 package com.example.springbootTutorial.controller;
 
-import domain.Member;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springbootTutorial.domain.Member;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import service.MemberService;
+import com.example.springbootTutorial.service.MemberService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MemberController {
     private final MemberService memberService;
 
-    @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService){
         this.memberService = memberService;
     }
+
     @GetMapping("member/new")
     public String createMemberForm(){
         return "member/createMemberForm";
@@ -35,4 +40,22 @@ public class MemberController {
 
         return "redirect:/";
     }
+    @GetMapping("member/all")
+    public String allMembers(Model model){
+        List<Member> members = memberService.findALLMembers();
+        model.addAttribute("memberList",members);
+        return "member/list";
+    }
+
+    @GetMapping("membeer/$(id)")
+    public String OnememberById(Model model, @RequestParam Long id){
+        Optional<Member> member = memberService.findOnemember(id);
+        model.addAttribute("member",member);
+        return "member/byId";
+    }
+    @GetMapping("member")
+    public String oneMemberByName(Model model,@RequestParam String name){
+        return "member/byName";
+    }
+
 }
