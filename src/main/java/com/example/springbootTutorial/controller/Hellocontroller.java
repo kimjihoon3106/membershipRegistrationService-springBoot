@@ -10,6 +10,5 @@ public class Hellocontroller {
     public String hello(Model model){
         model.addAttribute("data","jihoon");
         return "hello/hello";
-
     }
 }
