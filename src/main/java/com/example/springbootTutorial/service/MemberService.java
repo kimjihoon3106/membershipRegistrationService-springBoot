@@ -3,6 +3,7 @@ package com.example.springbootTutorial.service;
 import com.example.springbootTutorial.controller.MemberForm;
 import com.example.springbootTutorial.repository.MemberRepository;
 import com.example.springbootTutorial.domain.Member;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
-@Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -20,7 +22,6 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
-
 
     public Long signUp(Member member){
         validateDuplicateMember(member);
@@ -34,7 +35,10 @@ public class MemberService {
     public List<Member> findALLMembers(){
        return memberRepository.findAll();
     }
-    public Optional<Member> findOnemember(Long id){
+    public Optional<Member> findOneMemberById(Long id){
         return memberRepository.findById(id);
     }
+    public Optional<Member> findOneMemberByName(String name){return memberRepository.findByName(name);}
+
+
 }

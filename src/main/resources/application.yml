@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springtutorial?serverTimezone=Asia/Seoul
+    username: root
+    password: kjh@3106
+
+  jpa:
+    show-sql: true
+    ddl-auto: none

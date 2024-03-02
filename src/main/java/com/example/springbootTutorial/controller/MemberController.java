@@ -1,21 +1,20 @@
 package com.example.springbootTutorial.controller;
 
 import com.example.springbootTutorial.domain.Member;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import com.example.springbootTutorial.service.MemberService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class MemberController {
     private final MemberService memberService;
 
+    @Autowired
     public MemberController(MemberService memberService){
         this.memberService = memberService;
     }
@@ -46,16 +45,18 @@ public class MemberController {
         model.addAttribute("memberList",members);
         return "member/list";
     }
+    @ResponseBody
 
-    @GetMapping("membeer/$(id)")
-    public String OnememberById(Model model, @RequestParam Long id){
-        Optional<Member> member = memberService.findOnemember(id);
-        model.addAttribute("member",member);
-        return "member/byId";
-    }
     @GetMapping("member")
-    public String oneMemberByName(Model model,@RequestParam String name){
-        return "member/byName";
+    public Optional<Member> OnememberById(Model model,@RequestParam(value = "id", required = false,defaultValue = "1")Long id) {
+        Optional<Member> member = memberService.findOneMemberById(id);
+        return member;
     }
-
+    @ResponseBody
+    @GetMapping("member/{name}")
+    public Optional<Member> oneMemberByName(Model model,@PathVariable(value = "name",required = false) String name){
+        Optional<Member> member = memberService.findOneMemberByName(name);
+        System.out.println(member.get().getName()+member.get().getId());
+        return member;
+    }
 }
